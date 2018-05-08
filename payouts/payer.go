@@ -66,6 +66,7 @@ func (u *PayoutsProcessor) Start() {
 		log.Println("Running with env RESOLVE_PAYOUT=1, now trying to resolve locked payouts")
 		u.resolvePayouts()
 		log.Println("Now you have to restart payouts module with RESOLVE_PAYOUT=0 for normal run")
+		os.Exit(1)
 		return
 	}
 
@@ -77,6 +78,7 @@ func (u *PayoutsProcessor) Start() {
 	if len(payments) > 0 {
 		log.Printf("Previous payout failed, you have to resolve it. List of failed payments:\n %v",
 			formatPendingPayments(payments))
+		os.Exit(1)
 		return
 	}
 
@@ -88,6 +90,7 @@ func (u *PayoutsProcessor) Start() {
 	}
 	if locked {
 		log.Println("Unable to start payouts because they are locked")
+		os.Exit(1)
 		return
 	}
 
