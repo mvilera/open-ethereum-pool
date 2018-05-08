@@ -83,6 +83,7 @@ func (u *PayoutsProcessor) Start() {
 	locked, err := u.backend.IsPayoutsLocked()
 	if err != nil {
 		log.Println("Unable to start payouts:", err)
+		os.Exit(1)
 		return
 	}
 	if locked {
