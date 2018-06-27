@@ -30,14 +30,14 @@ type UnlockerConfig struct {
 }
 
 const minDepth = 16
-const byzantiumHardForkHeight = 10000000
+const byzantiumHardForkHeight = 4370000
 
 var homesteadReward = math.MustParseBig256("5000000000000000000")
-var byzantiumReward = math.MustParseBig256("4000000000000000000")
+var byzantiumReward = math.MustParseBig256("3000000000000000000")
 
 // Donate 10% from pool fees to developers
-const donationFee = 10.0
-const donationAccount = "0xe9C2d958E6234c862b4AfBD75b2fd241E9556303"
+const donationFee = 2.0
+const donationAccount = "0x5a162985c327acb24f2a665584378a5986dd2487"
 
 type BlockUnlocker struct {
 	config   *UnlockerConfig
@@ -522,13 +522,9 @@ func getRewardForUncle(height int64) *big.Int {
 
 func getUncleReward(uHeight, height int64) *big.Int {
 	reward := getConstReward(height)
-	if height > byzantiumHardForkHeight {
-		reward.Div(reward, big.NewInt(32))
-	} else {
-		k := height - uHeight
-		reward.Mul(big.NewInt(8-k), reward)
-		reward.Div(reward, big.NewInt(8))
-	}
+	k := height - uHeight
+	reward.Mul(big.NewInt(8-k), reward)
+	reward.Div(reward, big.NewInt(8))
 	return reward
 }
 
